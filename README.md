@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Financial Dashboard
 
 A modern, responsive financial dashboard built for users to track their financial activity. It provides a visual overview of income, expenses, and insights.
@@ -39,3 +40,7 @@ A modern, responsive financial dashboard built for users to track their financia
 
 ## State Management
 State is managed globally using React's `Context API` combined with `useReducer` for robust, action-based state updates (like Redux). A custom `useDashboardData` hook retrieves context data and computes derived analytics (Totals, Trends, Spending categories) seamlessly.
+=======
+# personal-finance-tracker
+Personal Finance Tracker — built with Vite, React, Recharts, and Tailwind CSS. Includes dark mode, dynamic searching/filtering, and mocked RBAC functionality.
+>>>>>>> 2147a1b57b011758ebbf51305a2c76491e2a0cea

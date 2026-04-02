@@ -16,7 +16,7 @@ const Sidebar = () => {
           <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
             <span className="font-bold text-xl">F</span>
           </div>
-          <span className="text-xl font-bold text-gray-900 dark:text-white">FinDash</span>
+          <span className="text-xl font-bold text-gray-900 dark:text-white">MoneyTracker</span>
         </div>
       </div>
       <nav className="flex-1 px-4 py-6 space-y-2">

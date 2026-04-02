@@ -2,10 +2,10 @@ import React, { useState, useContext } from 'react';
 import { X } from 'lucide-react';
 import { DashboardContext } from '../../context/DashboardContext';
 
-const TransactionForm = ({ onClose }) => {
-  const { dispatch } = useContext(DashboardContext);
+const TransactionForm = ({ onClose, initialData }) => {
+  const { state, dispatch } = useContext(DashboardContext);
   
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState(initialData || {
     description: '',
     amount: '',
     category: '',
@@ -27,7 +27,11 @@ const TransactionForm = ({ onClose }) => {
       amount: parseFloat(formData.amount)
     };
 
-    dispatch({ type: 'ADD_TRANSACTION', payload: newTransaction });
+    if (initialData) {
+      dispatch({ type: 'EDIT_TRANSACTION', payload: { ...newTransaction, id: initialData.id } });
+    } else {
+      dispatch({ type: 'ADD_TRANSACTION', payload: newTransaction });
+    }
     onClose();
   };
 
@@ -35,7 +39,7 @@ const TransactionForm = ({ onClose }) => {
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
         <div className="px-6 py-4 flex items-center justify-between border-b border-gray-100 dark:border-gray-700">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Add Transaction</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{initialData ? 'Edit' : 'Add'} Transaction</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
             <X className="w-5 h-5" />
           </button>
@@ -88,7 +92,7 @@ const TransactionForm = ({ onClose }) => {
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Amount</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-500 sm:text-sm">$</span>
+                  <span className="text-gray-500 sm:text-sm">{state.currency}</span>
                 </div>
                 <input
                   type="number"
@@ -142,7 +146,7 @@ const TransactionForm = ({ onClose }) => {
               type="submit"
               className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
             >
-              Save Transaction
+              {initialData ? 'Update' : 'Save'} Transaction
             </button>
           </div>
         </form>

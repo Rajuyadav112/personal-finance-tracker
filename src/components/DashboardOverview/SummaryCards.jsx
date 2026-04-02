@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowUpRight, ArrowDownRight, DollarSign } from 'lucide-react';
 
-const SummaryCards = ({ summary }) => {
+const SummaryCards = ({ summary, currency }) => {
   const cards = [
     {
       title: 'Total Balance',
@@ -38,7 +38,7 @@ const SummaryCards = ({ summary }) => {
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-3xl font-bold text-gray-900 dark:text-white">
-              ${card.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              {currency}{card.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </span>
           </div>
         </div>

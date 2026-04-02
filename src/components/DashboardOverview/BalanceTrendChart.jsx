@@ -1,7 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const BalanceTrendChart = ({ data }) => {
+const BalanceTrendChart = ({ data, currency }) => {
   return (
     <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm h-96">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Balance Trend</h3>
@@ -19,7 +19,7 @@ const BalanceTrendChart = ({ data }) => {
             tickLine={false} 
             axisLine={false} 
             tick={{ fill: '#6b7280', fontSize: 12 }} 
-            tickFormatter={(value) => `$${value}`}
+            tickFormatter={(value) => `${currency}${value}`}
           />
           <Tooltip 
             contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}

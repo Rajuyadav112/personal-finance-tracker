@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { useDashboardData } from '../../hooks/useDashboardData';
 import TransactionForm from './TransactionForm';
-import { Plus, Trash2, ArrowUpRight, ArrowDownRight, Filter } from 'lucide-react';
+import { Plus, Trash2, Edit, ArrowUpRight, ArrowDownRight, Filter } from 'lucide-react';
 import { DashboardContext } from '../../context/DashboardContext';
 
 const TransactionList = () => {
-  const { transactions, role } = useDashboardData();
+  const { transactions, role, currency } = useDashboardData();
   const { dispatch } = React.useContext(DashboardContext);
   
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all'); // all, income, expense
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingTransaction, setEditingTransaction] = useState(null);
 
   const filteredTransactions = transactions.filter(t => {
     const matchesSearch = t.description.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -52,7 +53,10 @@ const TransactionList = () => {
 
           {role === 'Admin' && (
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => {
+                setEditingTransaction(null);
+                setIsModalOpen(true);
+              }}
               className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors"
             >
               <Plus className="w-4 h-4" />
@@ -96,17 +100,28 @@ const TransactionList = () => {
                     <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
                       <div className={`flex items-center justify-end gap-1 ${t.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-900 dark:text-white'}`}>
                         {t.type === 'income' ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4 text-rose-500" />}
-                        ${Number(t.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        {currency}{Number(t.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                       </div>
                     </td>
                     {role === 'Admin' && (
                       <td className="py-4 px-6 text-right">
-                        <button
-                          onClick={() => handleDelete(t.id)}
-                          className="text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button
+                            onClick={() => {
+                              setEditingTransaction(t);
+                              setIsModalOpen(true);
+                            }}
+                            className="text-gray-400 hover:text-indigo-500 transition-colors"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(t.id)}
+                            className="text-gray-400 hover:text-red-500 transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </td>
                     )}
                   </tr>
@@ -118,7 +133,10 @@ const TransactionList = () => {
       </div>
 
       {isModalOpen && (
-        <TransactionForm onClose={() => setIsModalOpen(false)} />
+        <TransactionForm 
+          onClose={() => setIsModalOpen(false)} 
+          initialData={editingTransaction} 
+        />
       )}
     </div>
   );

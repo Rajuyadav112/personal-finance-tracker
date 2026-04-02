@@ -65,6 +65,18 @@ const Header = () => {
           </button>
         </div>
 
+        {/* Currency Selector */}
+        <select
+          value={state.currency}
+          onChange={(e) => dispatch({ type: 'SET_CURRENCY', payload: e.target.value })}
+          className="bg-gray-100 dark:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200 px-3 py-1.5 rounded-lg border-0 focus:ring-0 cursor-pointer"
+        >
+          <option value="$">USD ($)</option>
+          <option value="€">EUR (€)</option>
+          <option value="£">GBP (£)</option>
+          <option value="₹">INR (₹)</option>
+        </select>
+
         <button 
           onClick={toggleTheme}
           className="p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
